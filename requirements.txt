@@ -1,0 +1,9 @@
+langchain-text-splitters
+langchain-community
+langchain-huggingface
+langchain-ollama
+sentence-transformers
+huggingface-hub
+faiss-cpu
+contractions
+spacy
