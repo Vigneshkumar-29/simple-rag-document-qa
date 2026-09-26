@@ -6,8 +6,10 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_ollama import ChatOllama
+from huggingface_hub import InferenceClient
 import contractions
 import spacy
+import os
 
 # load the document
 
@@ -117,14 +119,31 @@ def generate_answer(retrieval_text,query):
                         Output: [Answer based only on the SOURCE TEXT]
                 '''
 
-    llm_model = ChatOllama(
-        model='llama3.1',
+    # llm_model = ChatOllama(
+    #     model='llama3.1',
+    #     temperature=0.0
+    # )
+
+    # response = llm_model.invoke(prompt).content
+    # return response
+
+
+    client = InferenceClient(
+        api_key=os.getenv("HF_TOKEN")
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
         temperature=0.0
     )
 
-    response = llm_model.invoke(prompt).content
-    return response
-
+    return response.choices[0].message.content
 
 # creating an rag to call all the function 
 def create_rag():
