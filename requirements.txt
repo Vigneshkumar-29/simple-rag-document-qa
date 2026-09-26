@@ -7,3 +7,4 @@ huggingface-hub
 faiss-cpu
 contractions
 spacy
+gradio

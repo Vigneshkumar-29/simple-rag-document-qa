@@ -35,3 +35,6 @@ faiss_index/
 
 # Local model/cache files
 .cache/
+
+# gradio
+.gradio/

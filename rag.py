@@ -101,6 +101,10 @@ def generate_answer(retrieval_text,query):
                         6. Answer only what the user has asked.
                         7. If the SOURCE TEXT does not contain enough information,
                         respond exactly with:
+                        8. If the answer contains multiple items or is long, 
+                            present it as clear numbered or bulleted points. 
+                            Group related information under short headings when helpful. 
+                            Keep each point concise and easy to read.
 
                         Insufficient context.
 
@@ -121,3 +125,19 @@ def generate_answer(retrieval_text,query):
     response = llm_model.invoke(prompt).content
     return response
 
+
+# creating an rag to call all the function 
+def create_rag():
+    data = load_doc('data.txt')
+
+    data = normalize_text(data)
+
+    data = lemmatize_text(data)
+
+    chunks = create_chunk(data)
+
+    embedding_model = create_embedding_model()
+
+    vectordb = create_vector_db(chunks,embedding_model)
+
+    return vectordb
